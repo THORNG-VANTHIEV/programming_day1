@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="km" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>មូលដ្ឋានគ្រឹះនៃការសរសេរកូដ (General Programming) - មគ្គុទ្ទេសក៍សម្រាប់សិស្ស</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Kantumruy Pro for Khmer & JetBrains Mono for Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Kantumruy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Kantumruy Pro"', '"Inter"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', '"Kantumruy Pro"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', 'Inter', sans-serif;
+            line-height: 1.75;
+        }
+        .khmer-title {
+            line-height: 1.45;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
+        }
+        .code-glow {
+            box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.35);
+        }
+        .gradient-border {
+            position: relative;
+        }
+        .grid-bg {
+            background-size: 32px 32px;
+            background-image: 
+                linear-gradient(to right, rgba(99, 102, 241, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.07) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 selection:bg-indigo-500 selection:text-white overflow-x-hidden">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
+                    <i class="ph-bold ph-code text-xl"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-tight block leading-none bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">CodeKhmer</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">មូលដ្ឋានគ្រឹះនៃការសរសេរកូដ</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-1 lg:gap-2 text-sm font-medium">
+                <a href="#hero" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">តើជាអ្វី?</a>
+                <a href="#why-learn" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">រៀនដើម្បីអ្វី?</a>
+                <a href="#what-learn" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">រៀនចេះអ្វីខ្លះ?</a>
+                <a href="#what-build" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">ធ្វើអ្វីបានខ្លះ?</a>
+                <a href="#playground" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">អនុវត្តផ្ទាល់ & សំណួរ</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2">
+                <button id="theme-toggle" onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="ប្តូរពណ៌ផ្ទៃ (Dark/Light Mode)">
+                    <i id="theme-icon" class="ph-fill ph-sun text-lg text-amber-400"></i>
+                </button>
+                <a href="#playground" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold shadow-md shadow-indigo-500/20 transition-all hover:-translate-y-0.5">
+                    <i class="ph-bold ph-play"></i>
+                    <span>សាកល្បងកូដ</span>
+                </a>
+                <!-- Mobile Menu Toggle -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+                    <i class="ph-bold ph-list text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 space-y-1">
+            <a href="#hero" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium">១. តើ Programming គឺជាអ្វី?</a>
+            <a href="#why-learn" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium">២. រៀនដើម្បីអ្វី?</a>
+            <a href="#what-learn" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium">៣. រៀនហើយចេះអ្វីខ្លះ?</a>
+            <a href="#what-build" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium">៤. ចេះហើយធ្វើអ្វីបានខ្លះ?</a>
+            <a href="#playground" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium text-center mt-2">៥. កន្លែងសាកល្បងកូដ និងសំណួរ</a>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         1. HERO SECTION: តើ Programming គឺជាអ្វី?
+         ========================================== -->
+    <section id="hero" class="relative pt-10 pb-20 lg:pt-16 lg:pb-28 grid-bg overflow-hidden">
+        <!-- Decorative Ambient Glows -->
+        <div class="absolute top-10 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column: Introduction & Explanation -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-600 dark:text-indigo-300 text-xs sm:text-sm font-medium">
+                        <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping"></span>
+                        <span>មគ្គុទ្ទេសក៍សម្រាប់សិស្សានុសិស្ស និងអ្នកចាប់ផ្តើមដំបូង</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight khmer-title">
+                        តើ <span class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Programming</span> គឺជាអ្វី?
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                        និយាយឱ្យងាយយល់បំផុត <strong>ការសរសេរកូដ (Programming)</strong> គឺជា <strong>«ការផ្តល់បញ្ជា ឬការណែនាំជាជំហានៗទៅកាន់កុំព្យូទ័រ»</strong> ដើម្បីឱ្យវាជួយគណនា ដោះស្រាយបញ្ហា ឬបង្កើតជាកម្មវិធីផ្សេងៗដែលយើងប្រើប្រាស់ប្រចាំថ្ងៃ។
+                    </p>
+
+                    <!-- Simple Analogy Box -->
+                    <div class="p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-lg space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-500 flex items-center justify-center shrink-0">
+                                <i class="ph-fill ph-lightbulb text-2xl"></i>
+                            </div>
+                            <h2 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white">
+                                ហេតុអ្វីត្រូវរៀនភាសាកូដ? (ឧទាហរណ៍ងាយយល់)
+                            </h2>
+                        </div>
+                        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                            កុំព្យូទ័រ និងទូរស័ព្ទគឺលឿនខ្លាំងណាស់ ប៉ុន្តែវា<strong>មិនចេះគិតដោយខ្លួនឯងទេ</strong>! វាប្រៀបដូចជាមនុស្សយន្តដ៏ឧស្សាហ៍មួយគ្រឿង ដែលរង់ចាំធ្វើតាមបញ្ជារបស់អ្នក។ ដើម្បីនិយាយជាមួយវាបាន យើងប្រើ <strong>ភាសាកូដ (Programming Languages)</strong> ដូចជា Python, JavaScript ឬ C# ជាដើម។
+                        </p>
+                    </div>
+
+                    <!-- Quick Flow Visual Pills -->
+                    <div class="grid grid-cols-3 gap-3 pt-2">
+                        <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+                            <div class="text-indigo-500 font-bold text-lg mb-1"><i class="ph-duotone ph-user-focus text-2xl"></i></div>
+                            <div class="text-xs sm:text-sm font-semibold">១. គំនិតមនុស្ស</div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">រៀបចំជំហានដោះស្រាយ</div>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+                            <div class="text-purple-500 font-bold text-lg mb-1"><i class="ph-duotone ph-terminal-window text-2xl"></i></div>
+                            <div class="text-xs sm:text-sm font-semibold">២. សរសេរជាកូដ</div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">បកប្រែជាភាសាកុំព្យូទ័រ</div>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+                            <div class="text-emerald-500 font-bold text-lg mb-1"><i class="ph-duotone ph-rocket-launch text-2xl"></i></div>
+                            <div class="text-xs sm:text-sm font-semibold">៣. លទ្ធផលជាក់ស្តែង</div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400">បង្កើតបានជា App / ហ្គេម</div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#why-learn" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold shadow-lg shadow-indigo-500/25 flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                            <span>ស្វែងយល់ពីអត្ថប្រយោជន៍</span>
+                            <i class="ph-bold ph-arrow-down"></i>
+                        </a>
+                        <a href="#what-learn" class="px-6 py-3.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-semibold flex items-center gap-2 transition-all">
+                            <i class="ph-duotone ph-book-open-text text-indigo-500 text-lg"></i>
+                            <span>មើលមេរៀនមូលដ្ឋានគ្រឹះ</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Mini Demo "How Computers Follow Instructions" -->
+                <div class="lg:col-span-5">
+                    <div class="rounded-2xl bg-slate-900 text-slate-100 border border-slate-800 code-glow overflow-hidden">
+                        <!-- Window Header -->
+                        <div class="px-4 py-3 bg-slate-800/80 border-b border-slate-700/80 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                                <span class="ml-2 text-xs font-mono text-slate-400">first_program.py</span>
+                            </div>
+                            <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">សាកល្បងចុចបញ្ជា</span>
+                        </div>
+
+                        <!-- Interactive Demo Body -->
+                        <div class="p-5 space-y-4">
+                            <div class="text-xs text-slate-400 flex items-center justify-between">
+                                <span>ជ្រើសរើសបញ្ជាដើម្បីមើលរបៀបដែលកុំព្យូទ័រធ្វើការ៖</span>
+                            </div>
+
+                            <!-- Scenario Selector Buttons -->
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="setHeroDemo(0)" id="hero-btn-0" class="hero-demo-btn px-3 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white border border-indigo-500 transition-all">
+                                    👋 ស្វាគមន៍សិស្ស
+                                </button>
+                                <button onclick="setHeroDemo(1)" id="hero-btn-1" class="hero-demo-btn px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition-all">
+                                    🧮 គណនាពិន្ទុ
+                                </button>
+                                <button onclick="setHeroDemo(2)" id="hero-btn-2" class="hero-demo-btn px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition-all">
+                                    🤖 បញ្ជារ៉ូបូតឆុងកាហ្វេ
+                                </button>
+                            </div>
+
+                            <!-- Human Instruction Box -->
+                            <div class="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/70">
+                                <div class="text-xs font-semibold text-amber-400 mb-1 flex items-center gap-1.5">
+                                    <i class="ph-fill ph-chat-circle-text"></i>
+                                    <span>បញ្ជាជាភាសាមនុស្ស (Human Logic)៖</span>
+                                </div>
+                                <p id="hero-human-text" class="text-xs sm:text-sm text-slate-200">
+                                    កត់ត្រាឈ្មោះសិស្សថា "សុខា" រួចបង្ហាញសារស្វាគមន៍មកកាន់ថ្នាក់រៀនកូដ។
+                                </p>
+                            </div>
+
+                            <!-- Code Translation Box -->
+                            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs sm:text-sm overflow-x-auto">
+                                <div class="text-xs font-sans font-semibold text-indigo-400 mb-2 flex items-center gap-1.5">
+                                    <i class="ph-bold ph-code"></i>
+                                    <span>បកប្រែជាកូដ (Python Code)៖</span>
+                                </div>
+                                <pre id="hero-code-text" class="text-emerald-300 leading-relaxed"></pre>
+                            </div>
+
+                            <!-- Computer Result Box -->
+                            <div class="p-4 rounded-xl bg-gradient-to-r from-indigo-950/80 to-purple-950/80 border border-indigo-500/30">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-xs font-semibold text-indigo-300 flex items-center gap-1.5">
+                                        <i class="ph-fill ph-desktop"></i>
+                                        <span>លទ្ធផលលើអេក្រង់កុំព្យូទ័រ (Output)៖</span>
+                                    </span>
+                                    <span class="text-[11px] text-emerald-400 flex items-center gap-1">
+                                        <i class="ph-fill ph-check-circle"></i> ដំណើរការជោគជ័យ
+                                    </span>
+                                </div>
+                                <div id="hero-output-text" class="text-sm sm:text-base font-bold text-white bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         2. WHY LEARN PROGRAMMING? (រៀនដើម្បីអ្វី?)
+         ========================================== -->
+    <section id="why-learn" class="py-20 bg-white dark:bg-slate-900/60 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs sm:text-sm font-semibold">
+                    <i class="ph-fill ph-sparkle"></i>
+                    <span>ផ្នែកទី ២ • អត្ថប្រយោជន៍នៃការរៀនកូដ</span>
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold khmer-title">
+                    តើយើងរៀន Programming <span class="text-indigo-600 dark:text-indigo-400">ដើម្បីអ្វី?</span>
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+                    ទោះបីជាអនាគតអ្នកមិនធ្វើជាអ្នកសរសេរកូដអាជីពក៏ដោយ ក៏ការយល់ដឹងពី Programming ផ្តល់នូវបំណិនជីវិតដ៏សំខាន់បំផុតទាំង ៤ នេះដែរ៖
+                </p>
+            </div>
+
+            <!-- 4 Core Benefit Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1: Logical Thinking -->
+                <div class="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i class="ph-duotone ph-brain text-3xl"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-500">អត្ថប្រយោជន៍ទី ១</span>
+                        <h3 class="text-lg sm:text-xl font-bold mt-1 mb-3 text-slate-900 dark:text-white khmer-title">
+                            បង្កើនការគិតបែបឡូជីខល និងដោះស្រាយបញ្ហា
+                        </h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            បង្វឹកខួរក្បាលឱ្យចេះបំបែកបញ្ហាធំៗ និងស្មុគស្មាញ មកជាជំហានតូចៗងាយស្រួលដោះស្រាយ (Decomposition & Logical Thinking)។
+                        </p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
+                        <strong class="text-indigo-600 dark:text-indigo-400 block mb-1">💡 ឧទាហរណ៍ក្នុងជីវិតពិត៖</strong>
+                        ជួយឱ្យអ្នកពូកែវិភាគមេរៀន គណិតវិទ្យា រូបវិទ្យា និងរៀបចំផែនការការងារប្រចាំថ្ងៃបានយ៉ាងមានប្រសិទ្ធភាព។
+                    </div>
+                </div>
+
+                <!-- Card 2: Career Opportunities -->
+                <div class="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i class="ph-duotone ph-briefcase text-3xl"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-500">អត្ថប្រយោជន៍ទី ២</span>
+                        <h3 class="text-lg sm:text-xl font-bold mt-1 mb-3 text-slate-900 dark:text-white khmer-title">
+                            ឱកាសការងារទូលំទូលាយ និងប្រាក់ចំណូលខ្ពស់
+                        </h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            គ្រប់ស្ថាប័នទាំងអស់ (ធនាគារ ក្រុមហ៊ុនទូរគមនាគមន៍ មន្ទីរពេទ្យ ក្រសួង...) សុទ្ធតែត្រូវការអ្នកបច្ចេកទេសកូដ និងប្រព័ន្ធឌីជីថល។
+                        </p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
+                        <strong class="text-emerald-600 dark:text-emerald-400 block mb-1">🌏 ឱកាសពិសេស៖</strong>
+                        អាចធ្វើការនៅក្រុមហ៊ុនក្នុងស្រុក ឬធ្វើការពីចម្ងាយ (Remote Work / Freelance) ឱ្យក្រុមហ៊ុនបរទេសទូទាំងពិភពលោក។
+                    </div>
+                </div>
+
+                <!-- Card 3: Creativity & Innovation -->
+                <div class="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-pink-500 dark:hover:border-pink-500 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-pink-500/10 text-pink-600 dark:text-pink-400 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i class="ph-duotone ph-magic-wand text-3xl"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-pink-500">អត្ថប្រយោជន៍ទី ៣</span>
+                        <h3 class="text-lg sm:text-xl font-bold mt-1 mb-3 text-slate-900 dark:text-white khmer-title">
+                            បង្កើតអ្វីថ្មីៗដោយខ្លួនឯង (Creativity)
+                        </h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            ប្រែក្លាយអ្នកពី «អ្នកប្រើប្រាស់បច្ចេកវិទ្យា» ទៅជា <strong>«អ្នកបង្កើតបច្ចេកវិទ្យា»</strong>។ មានតែកុំព្យូទ័រមួយគ្រឿង អ្នកអាចបង្កើតស្នាដៃជួយសង្គមបាន។
+                        </p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
+                        <strong class="text-pink-600 dark:text-pink-400 block mb-1">🚀 ពីគំនិតទៅជាការពិត៖</strong>
+                        ចង់បង្កើត App កត់ត្រាចំណាយ វចនានុក្រមខ្មែរ ឬហ្គេមកម្សាន្ត? អ្នកអាចសរសេរវាចេញមកដោយដៃខ្លួនឯង!
+                    </div>
+                </div>
+
+                <!-- Card 4: Understanding Digital World -->
+                <div class="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-500 dark:hover:border-amber-500 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i class="ph-duotone ph-globe-hemisphere-east text-3xl"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-500">អត្ថប្រយោជន៍ទី ៤</span>
+                        <h3 class="text-lg sm:text-xl font-bold mt-1 mb-3 text-slate-900 dark:text-white khmer-title">
+                            យល់ដឹងស៊ីជម្រៅពីពិភពបច្ចេកវិទ្យា
+                        </h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            យល់ច្បាស់ពីរបៀបដែល Internet, កម្មវិធីធនាគារ, Social Media និង AI ដំណើរការ ព្រមទាំងចេះការពារសុវត្ថិភាពទិន្នន័យខ្លួនឯង។
+                        </p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
+                        <strong class="text-amber-600 dark:text-amber-400 block mb-1">🛡️ ភាពឆ្លាតវៃឌីជីថល៖</strong>
+                        ធ្វើឱ្យយើងចេះប្រើប្រាស់ AI និងឧបករណ៍ទំនើបៗដើម្បីជួយសម្រួលការសិក្សា និងការងារឱ្យលឿនជាងមុន ១០ ដង។
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         3. WHAT WILL YOU LEARN? (រៀនហើយចេះអ្វីខ្លះ?)
+         ========================================== -->
+    <section id="what-learn" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs sm:text-sm font-semibold">
+                    <i class="ph-fill ph-Circles-Three-Plus"></i>
+                    <span>ផ្នែកទី ៣ • មូលដ្ឋានគ្រឹះសំខាន់ៗទាំង ៥ (Core Concepts)</span>
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold khmer-title">
+                    រៀន Programming ហើយ <span class="text-indigo-600 dark:text-indigo-400">តើនឹងចេះអ្វីខ្លះ?</span>
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+                    ទោះបីអ្នករៀនភាសាកូដមួយណាក៏ដោយ (Python, JavaScript, C++, Java...) មូលដ្ឋានគ្រឹះទាំង ៥ ខាងក្រោមនេះគឺដូចគ្នាទាំងអស់! សូមចុចលើចំណុចនីមួយៗដើម្បីមើលការពន្យល់ និងឧទាហរណ៍៖
+                </p>
+            </div>
+
+            <!-- Interactive Concept Explorer Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left Column: Concept Selector Tabs -->
+                <div class="lg:col-span-5 space-y-3" id="concept-tabs">
+                    <!-- Rendered dynamically or pre-populated -->
+                </div>
+
+                <!-- Right Column: Active Concept Details & Code Explorer -->
+                <div class="lg:col-span-7">
+                    <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+                        
+                        <!-- Concept Top Banner -->
+                        <div class="p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-transparent">
+                            <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div id="concept-icon-box" class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-indigo-500/30">
+                                        <i class="ph-duotone ph-package"></i>
+                                    </div>
+                                    <div>
+                                        <span id="concept-badge" class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">មូលដ្ឋានគ្រឹះទី ១</span>
+                                        <h3 id="concept-title" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white khmer-title">
+                                            Variables & Data Types (អថេរ និងប្រភេទទិន្នន័យ)
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p id="concept-desc" class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-5">
+                            </p>
+
+                            <!-- Real-World Analogy Callout -->
+                            <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-lg bg-amber-500 text-white flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="ph-fill ph-lightbulb-filament text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-300 mb-1">
+                                        ការប្រៀបធៀបក្នុងជីវិតពិត (Real-World Analogy)៖
+                                    </h4>
+                                    <p id="concept-analogy" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Code Example & Interactive Simulation Area -->
+                        <div class="p-6 sm:p-8 bg-slate-950 text-slate-100 space-y-5">
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-semibold text-slate-400">ជ្រើសរើសភាសាកូដគំរូ៖</span>
+                                    <button onclick="setConceptLang('python')" id="lang-btn-python" class="px-3 py-1 rounded-lg text-xs font-mono font-semibold bg-indigo-600 text-white transition-all">
+                                        Python
+                                    </button>
+                                    <button onclick="setConceptLang('js')" id="lang-btn-js" class="px-3 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-400 hover:text-white transition-all">
+                                        JavaScript
+                                    </button>
+                                </div>
+                                <button onclick="runConceptDemo()" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all">
+                                    <i class="ph-fill ph-play"></i>
+                                    <span>សាកល្បងដំណើរការកូដនេះ</span>
+                                </button>
+                            </div>
+
+                            <!-- Code Block -->
+                            <div class="relative rounded-xl bg-slate-900 border border-slate-800 p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+                                <pre id="concept-code" class="leading-relaxed text-indigo-200"></pre>
+                            </div>
+
+                            <!-- Visual Output Box -->
+                            <div class="rounded-xl bg-slate-900/90 border border-slate-800 p-4">
+                                <div class="text-xs text-slate-400 mb-2 flex items-center justify-between">
+                                    <span class="flex items-center gap-1.5 font-semibold text-emerald-400">
+                                        <i class="ph-bold ph-terminal"></i>
+                                        លទ្ធផលពេលកូដដំណើរការ (Output & ការពន្យល់)៖
+                                    </span>
+                                    <span id="concept-run-status" class="text-[11px] text-slate-500">ចុចប៊ូតុងខាងលើដើម្បីសាកល្បង</span>
+                                </div>
+                                <div id="concept-output" class="p-3 rounded-lg bg-slate-950 border border-slate-800/80 text-xs sm:text-sm text-emerald-300 font-mono whitespace-pre-line">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         4. WHAT CAN YOU BUILD/DO? (ចេះហើយធ្វើអ្វីបានខ្លះ?)
+         ========================================== -->
+    <section id="what-build" class="py-20 bg-white dark:bg-slate-900/60 border-y border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm font-semibold">
+                    <i class="ph-fill ph-rocket-launch"></i>
+                    <span>ផ្នែកទី ៤ • សមិទ្ធផល និងអាជីពការងារ (Career Paths)</span>
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold khmer-title">
+                    រៀនចេះហើយ <span class="text-indigo-600 dark:text-indigo-400">តើធ្វើអ្វីបានខ្លះ?</span>
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+                    នៅពេលអ្នកចេះមូលដ្ឋានគ្រឹះនៃការសរសេរកូដ អ្នកអាចជ្រើសរើសជំនាញឯកទេសណាមួយក្នុងចំណោមវិស័យធំៗទាំង ៥ ខាងក្រោម៖
+                </p>
+            </div>
+
+            <!-- Interactive Career Path Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10" id="career-filter-tabs">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Active Career Path Showcase Card (Detailed Interactive View) -->
+            <div id="career-spotlight" class="mb-12 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 text-white p-6 sm:p-10 border border-slate-800 shadow-2xl">
+                <!-- Populated dynamically by JS -->
+            </div>
+
+            <!-- All 5 Paths Summary Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5" id="career-cards-grid">
+                <!-- Populated dynamically by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         5. MINI INTERACTIVE CODE PLAYGROUND & QUIZ
+         ========================================== -->
+    <section id="playground" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 text-xs sm:text-sm font-semibold">
+                    <i class="ph-fill ph-game-controller"></i>
+                    <span>ផ្នែកទី ៥ • អនុវត្តផ្ទាល់ និងវាស់ស្ទង់ការយល់ដឹង</span>
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-bold khmer-title">
+                    កន្លែងសាកល្បងកូដ <span class="text-indigo-600 dark:text-indigo-400">& កម្រងសំណួរខ្លីៗ</span>
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+                    សាកល្បងកែប្រែតម្លៃអថេរ (Variables), លក្ខខណ្ឌ (If/Else) និងរង្វិលជុំ (Loops) ដោយខ្លួនឯង រួចឆ្លើយសំណួរទាំង ៣ ដើម្បីទទួលបានពិន្ទុ!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- LEFT COLUMN (7 Cols): Interactive Visual Logic & Code Simulator -->
+                <div class="lg:col-span-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+                    <!-- Simulator Top Header -->
+                    <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 bg-slate-50/70 dark:bg-slate-900/50">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xl shadow-md">
+                                <i class="ph-bold ph-sliders-horizontal"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white">កម្មវិធីសាកល្បងឡូជីខលកូដ (Live Code Simulator)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">កែប្រែទិន្នន័យខាងក្រោម ដើម្បីមើលកូដ និងលទ្ធផលផ្លាស់ប្តូរភ្លាមៗ</p>
+                            </div>
+                        </div>
+                        <button onclick="runPlaygroundSimulation()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg shadow-emerald-600/25 transition-all hover:scale-105">
+                            <i class="ph-fill ph-play-circle text-lg"></i>
+                            <span>ដំណើរការកូដ (Run)</span>
+                        </button>
+                    </div>
+
+                    <div class="p-6 space-y-6">
+                        <!-- Step 1: Interactive Controls -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- Input 1: Student Name (Variable) -->
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                                <label class="block text-xs font-bold text-indigo-600 dark:text-indigo-400 mb-1">
+                                    ១. អថេរឈ្មោះ (Variable `name`)
+                                </label>
+                                <input type="text" id="pg-name" value="សុខា" oninput="updatePlaygroundCodePreview()" class="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-sm font-medium focus:outline-none focus:border-indigo-500" placeholder="បញ្ចូលឈ្មោះ...">
+                            </div>
+
+                            <!-- Input 2: Score (If/Else Condition) -->
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                                <div class="flex justify-between text-xs font-bold text-purple-600 dark:text-purple-400 mb-1">
+                                    <span>២. ពិន្ទុប្រឡង (`score`)</span>
+                                    <span id="pg-score-label" class="font-mono text-sm">85</span>
+                                </div>
+                                <input type="range" id="pg-score" min="0" max="100" value="85" oninput="updatePlaygroundCodePreview()" class="w-full accent-purple-600 cursor-pointer mt-2">
+                                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                                    <span>0 (ធ្លាក់ &lt; 50)</span>
+                                    <span>50 (ជាប់)</span>
+                                    <span>100 (ល្អប្រសើរ)</span>
+                                </div>
+                            </div>
+
+                            <!-- Input 3: Stars Loop Count (Loop) -->
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                                <div class="flex justify-between text-xs font-bold text-pink-600 dark:text-pink-400 mb-1">
+                                    <span>៣. ចំនួនផ្កាយ (`loop`)</span>
+                                    <span id="pg-loop-label" class="font-mono text-sm">4 ដង</span>
+                                </div>
+                                <input type="range" id="pg-loop" min="1" max="8" value="4" oninput="updatePlaygroundCodePreview()" class="w-full accent-pink-600 cursor-pointer mt-2">
+                                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                                    <span>1 ផ្កាយ</span>
+                                    <span>8 ផ្កាយ</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Live Generated Code Preview -->
+                        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-4 font-mono text-xs sm:text-sm overflow-x-auto">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-2 pb-2 border-b border-slate-800 font-sans">
+                                <span class="flex items-center gap-1.5 font-semibold text-indigo-400">
+                                    <i class="ph-bold ph-code"></i> កូដដែលកុំព្យូទ័រនឹងអាន (Live Python Code)៖
+                                </span>
+                                <span class="text-[11px] text-slate-500">កូដផ្លាស់ប្តូរតាមការកំណត់របស់អ្នក</span>
+                            </div>
+                            <pre id="pg-code-display" class="leading-relaxed text-slate-200"></pre>
+                        </div>
+
+                        <!-- Step 3: Visual Execution Result -->
+                        <div id="pg-result-card" class="rounded-2xl bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-indigo-500/30 p-5 transition-all">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                                    <i class="ph-fill ph-sparkle"></i> លទ្ធផលបង្ហាញលើអេក្រង់កម្មវិធី (Visual Output)
+                                </span>
+                                <span id="pg-badge-status" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-300">
+                                    ជាប់ជាស្ថាពរ
+                                </span>
+                            </div>
+                            <div id="pg-visual-output" class="space-y-3">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN (5 Cols): 3-Question Interactive Khmer Quiz -->
+                <div class="lg:col-span-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+                    <!-- Quiz Header -->
+                    <div class="p-6 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-600 dark:text-purple-300 text-xs font-bold">
+                                សំណួរវាស់ស្ទង់ការយល់ដឹង
+                            </span>
+                            <span id="quiz-score-badge" class="text-xs font-bold text-slate-600 dark:text-slate-300">
+                                ពិន្ទុ៖ 0 / 3
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900 dark:text-white khmer-title">
+                            តើអ្នកយល់ពីមូលដ្ឋានគ្រឹះកូដកម្រិតណា?
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                            ជ្រើសរើសចម្លើយដែលត្រឹមត្រូវបំផុតសម្រាប់សំណួរទាំង ៣ ខាងក្រោម៖
+                        </p>
+                    </div>
+
+                    <!-- Quiz Body -->
+                    <div class="p-6 space-y-6" id="quiz-container">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Quiz Footer / Reset -->
+                    <div class="px-6 py-4 bg-slate-50 dark:bg-slate-950/60 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <span id="quiz-summary-text" class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">
+                            ឆ្លើយសំណួរទាំងអស់ដើម្បីមើលលទ្ធផល!
+                        </span>
+                        <button onclick="resetQuiz()" class="px-3.5 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                            <i class="ph-bold ph-arrow-counter-clockwise"></i>
+                            <span>ធ្វើម្តងទៀត</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ROADMAP SUMMARY BANNER & FOOTER
+         ========================================== -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+            <div class="relative z-10 max-w-3xl space-y-4">
+                <span class="px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
+                    ដំបូន្មានសម្រាប់សិស្សចាប់ផ្តើមដំបូង
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-bold khmer-title">
+                    តើគួរចាប់ផ្តើមរៀនពីណាទៅមុន?
+                </h2>
+                <p class="text-white/90 text-sm sm:text-base leading-relaxed">
+                    កុំព្យាយាមរៀនភាសាកូដច្រើនក្នុងពេលតែមួយ! ចូរជ្រើសរើសភាសា <strong>Python</strong> (ងាយអានបំផុត) ឬ <strong>JavaScript</strong> (សម្រាប់បង្កើតគេហទំព័រ) រួចអនុវត្តសរសេរកម្មវិធីតូចៗឱ្យបានរាល់ថ្ងៃ ត្រឹមតែ ៣០ នាទីក្នុងមួយថ្ងៃ អ្នកនឹងឃើញការរីកចម្រើនយ៉ាងឆាប់រហ័ស។
+                </p>
+                <div class="flex flex-wrap gap-3 pt-2 text-xs sm:text-sm font-semibold">
+                    <div class="px-4 py-2 rounded-xl bg-white/15 backdrop-blur-md flex items-center gap-2">
+                        <i class="ph-fill ph-check-circle text-emerald-300 text-lg"></i>
+                        <span>ជំហានទី ១៖ យល់ពី Logic & អថេរ</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-white/15 backdrop-blur-md flex items-center gap-2">
+                        <i class="ph-fill ph-check-circle text-emerald-300 text-lg"></i>
+                        <span>ជំហានទី ២៖ អនុវត្តកូដខ្លីៗប្រចាំថ្ងៃ</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-white/15 backdrop-blur-md flex items-center gap-2">
+                        <i class="ph-fill ph-check-circle text-emerald-300 text-lg"></i>
+                        <span>ជំហានទី ៣៖ បង្កើត Project តូចៗដោយខ្លួនឯង</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-slate-200 dark:border-slate-800 py-10 text-center text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 font-semibold text-slate-700 dark:text-slate-300">
+                <i class="ph-bold ph-code text-indigo-500 text-lg"></i>
+                <span>CodeKhmer • មូលដ្ឋានគ្រឹះនៃការសរសេរកូដសម្រាប់សិស្សានុសិស្ស</span>
+            </div>
+            <p>បង្កើតឡើងដើម្បីលើកកម្ពស់ការអប់រំផ្នែកបច្ចេកវិទ្យា និងឌីជីថលជាភាសាខ្មែរ 🇰🇭</p>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         JAVASCRIPT LOGIC & INTERACTIVE DATA
+         ========================================== -->
+    <script>
+        // ------------------------------------------
+        // THEME & MOBILE MENU CONTROLS
+        // ------------------------------------------
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            if (htmlEl.classList.contains('dark')) {
+                htmlEl.classList.remove('dark');
+                themeIcon.className = 'ph-fill ph-moon text-lg text-indigo-600';
+            } else {
+                htmlEl.classList.add('dark');
+                themeIcon.className = 'ph-fill ph-sun text-lg text-amber-400';
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // ------------------------------------------
+        // 1. HERO INTERACTIVE DEMO DATA & LOGIC
+        // ------------------------------------------
+        const heroDemos = [
+            {
+                human: 'កត់ត្រាឈ្មោះសិស្សថា "សុខា" រួចបង្ហាញសារស្វាគមន៍មកកាន់ថ្នាក់រៀនកូដ។',
+                code: `# ១. បង្កើតអថេរផ្ទុកឈ្មោះសិស្ស\nstudent_name = "សុខា"\n\n# ២. បញ្ជាឱ្យកុំព្យូទ័របង្ហាញសារលើអេក្រង់\nprint("សួស្តី " + student_name + "! ស្វាគមន៍មកកាន់ពិភពកូដ 🚀")`,
+                output: 'សួស្តី សុខា! ស្វាគមន៍មកកាន់ពិភពកូដ 🚀'
+            },
+            {
+                human: 'បូកពិន្ទុគណិតវិទ្យា (45) និងពិន្ទុកុំព្យូទ័រ (50) រួចពិនិត្យមើលថាជាប់ ឬធ្លាក់។',
+                code: `math_score = 45\ncoding_score = 50\ntotal = math_score + coding_score\n\nif total >= 50:\n    print("ពិន្ទុសរុប៖", total, "-> អបអរសាទរ អ្នកប្រឡងជាប់! 🏆")`,
+                output: 'ពិន្ទុសរុប៖ 95 -> អបអរសាទរ អ្នកប្រឡងជាប់! 🏆'
+            },
+            {
+                human: 'បញ្ជារ៉ូបូតឱ្យឆុងកាហ្វេចំនួន ៣ កែវ ជូនគ្រូបង្រៀនដោយស្វ័យប្រវត្តិ។',
+                code: `for cup in range(1, 4):\n    print(f"☕ រ៉ូបូតកំពុងឆុងកាហ្វេកែវទី {cup} រួចរាល់!")`,
+                output: '☕ រ៉ូបូតកំពុងឆុងកាហ្វេកែវទី 1 រួចរាល់!\n☕ រ៉ូបូតកំពុងឆុងកាហ្វេកែវទី 2 រួចរាល់!\n☕ រ៉ូបូតកំពុងឆុងកាហ្វេកែវទី 3 រួចរាល់!'
+            }
+        ];
+
+        function setHeroDemo(index) {
+            const demo = heroDemos[index];
+            document.getElementById('hero-human-text').textContent = demo.human;
+            document.getElementById('hero-code-text').textContent = demo.code;
+            document.getElementById('hero-output-text').innerText = demo.output;
+
+            document.querySelectorAll('.hero-demo-btn').forEach((btn, i) => {
+                if (i === index) {
+                    btn.className = 'hero-demo-btn px-3 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white border border-indigo-500 transition-all shadow-md';
+                } else {
+                    btn.className = 'hero-demo-btn px-3 py-2 rounded-xl text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition-all';
+                }
+            });
+        }
+
+        // ------------------------------------------
+        // 3. CONCEPT EXPLORER DATA & LOGIC (5 FUNDAMENTALS)
+        // ------------------------------------------
+        const coreConcepts = [
+            {
+                id: 'variables',
+                number: 'មូលដ្ឋានគ្រឹះទី ១',
+                title: 'Variables & Data Types (អថេរ និងប្រភេទទិន្នន័យ)',
+                shortTitle: '១. Variables & Data Types',
+                subtitle: 'កន្លែងផ្ទុកទិន្នន័យក្នុងអង្គចងចាំកុំព្យូទ័រ',
+                icon: 'ph-package',
+                color: 'indigo',
+                desc: 'Variable (អថេរ) គឺជាឈ្មោះតំណាងឱ្យកន្លែងផ្ទុកទិន្នន័យនៅក្នុងកុំព្យូទ័រ។ ទិន្នន័យទាំងនោះមានប្រភេទខុសៗគ្នា (Data Types) ដូចជា៖ អក្សរ (String), លេខគត់ (Integer), លេខទសភាគ (Float), និងតម្លៃពិត/មិនពិត (Boolean)។',
+                analogy: 'ប្រៀបដូចជា «ប្រអប់ដាក់ឥវ៉ាន់នៅផ្ទះដែលមានបិទស្លាកឈ្មោះ»។ ឧទាហរណ៍៖ ប្រអប់ឈ្មោះ student_name ដាក់អក្សរ "តារា" រីឯប្រអប់ឈ្មោះ age ដាក់លេខ 16។ ពេលយើងត្រូវការប្រើ យើងគ្រាន់តែហៅឈ្មោះប្រអប់នោះជាការស្រេច!',
+                pythonCode: `# បង្កើតអថេរ (Variables) ផ្ទុកប្រភេទទិន្នន័យផ្សេងៗ
+student_name = "តារា"      # String (អក្សរ)
+age = 16                   # Integer (លេខគត់)
+gpa_score = 92.5           # Float (លេខទសភាគ)
+is_student = True          # Boolean (ពិត ឬ មិនពិត)
+
+print("ឈ្មោះសិស្ស៖", student_name)
+print("អាយុ៖", age, "ឆ្នាំ | ពិន្ទុមធ្យមភាគ៖", gpa_score)`,
+                jsCode: `// បង្កើតអថេរក្នុងភាសា JavaScript
+let studentName = "តារា";     // String (អក្សរ)
+let age = 16;                 // Number (លេខ)
+let gpaScore = 92.5;          // Float (លេខទសភាគ)
+let isStudent = true;         // Boolean (ពិត ឬ មិនពិត)
+
+console.log("ឈ្មោះសិស្ស៖ " + studentName);
+console.log("អាយុ៖ " + age + " ឆ្នាំ | ពិន្ទុមធ្យមភាគ៖ " + gpaScore);`,
+                output: `ឈ្មោះសិស្ស៖ តារា\nអាយុ៖ 16 ឆ្នាំ | ពិន្ទុមធ្យមភាគ៖ 92.5\n[កុំព្យូទ័របានរក្សាទុកទិន្នន័យទាំង ៤ ក្នុងអង្គចងចាំរួចរាល់!]`
+            },
+            {
+                id: 'conditions',
+                number: 'មូលដ្ឋានគ្រឹះទី ២',
+                title: 'Conditions - If / Else (លក្ខខណ្ឌសម្រេចចិត្ត)',
+                shortTitle: '២. Conditions (If / Else)',
+                subtitle: 'បង្រៀនកុំព្យូទ័រឱ្យចេះត្រួតពិនិត្យ និងសម្រេចចិត្ត',
+                icon: 'ph-git-split',
+                color: 'purple',
+                desc: 'Condition (លក្ខខណ្ឌ If / Else) អនុញ្ញាតឱ្យកុំព្យូទ័រចេះសម្រេចចិត្តជ្រើសរើសផ្លូវត្រូវដើរ។ «ប្រសិនបើ (if)» លក្ខខណ្ឌពិត វានឹងធ្វើការងារ A ប៉ុន្តែ «បើមិនដូច្នោះទេ (else)» វានឹងធ្វើការងារ B។',
+                analogy: 'ប្រៀបដូចជាការសម្រេចចិត្តក្នុងជីវិតប្រចាំថ្ងៃ៖ «ប្រសិនបើមេឃភ្លៀង ខ្ញុំនឹងយកឆ័ត្រទៅសាលា បើមិនភ្លៀងទេ ខ្ញុំមិនយកឆ័ត្រទៅទេ» ឬ «បើពិន្ទុចាប់ពី ៥០ ឡើងទៅគឺជាប់ បើតិចជាង ៥០ គឺធ្លាក់»។',
+                pythonCode: `exam_score = 78
+
+# ត្រួតពិនិត្យលក្ខខណ្ឌពិន្ទុ
+if exam_score >= 80:
+    print("និទ្ទេស A - ល្អប្រសើរណាស់! 🌟")
+elif exam_score >= 50:
+    print("និទ្ទេស B/C - អបអរសាទរ អ្នកប្រឡងជាប់! ✅")
+else:
+    print("សូមប្រឹងប្រែងម្តងទៀតនៅពេលក្រោយ! 💪")`,
+                jsCode: `let examScore = 78;
+
+// ត្រួតពិនិត្យលក្ខខណ្ឌពិន្ទុ
+if (examScore >= 80) {
+    console.log("និទ្ទេស A - ល្អប្រសើរណាស់! 🌟");
+} else if (examScore >= 50) {
+    console.log("និទ្ទេស B/C - អបអរសាទរ អ្នកប្រឡងជាប់! ✅");
+} else {
+    console.log("សូមប្រឹងប្រែងម្តងទៀតនៅពេលក្រោយ! 💪");
+}`,
+                output: `និទ្ទេស B/C - អបអរសាទរ អ្នកប្រឡងជាប់! ✅\n[ព្រោះ exam_score = 78 គឺធំជាង 50 ដូច្នេះកុំព្យូទ័រជ្រើសរើសលក្ខខណ្ឌទី ២]`
+            },
+            {
+                id: 'loops',
+                number: 'មូលដ្ឋានគ្រឹះទី ៣',
+                title: 'Loops (រង្វិលជុំ / ការធ្វើការងារដដែលៗដោយស្វ័យប្រវត្តិ)',
+                shortTitle: '៣. Loops (For / While)',
+                subtitle: 'ធ្វើការងាររាប់ពាន់ដងក្នុងរយៈពេលតែ ១ វិនាទី',
+                icon: 'ph-arrows-clockwise',
+                color: 'pink',
+                desc: 'Loop (រង្វិលជុំ) គឺជាការបញ្ជាឱ្យកុំព្យូទ័រធ្វើការងារដដែលៗ រហូតដល់គ្រប់ចំនួនកំណត់ ដោយយើងមិនចាំបាច់សរសេរកូដដដែលៗច្រើនដងឡើយ។',
+                analogy: 'ប្រៀបដូចជាគ្រូកីឡាប្រាប់សិស្សថា «រត់ជុំវិញទីលានចំនួន ៥ ជុំ» ជំនួសឱ្យការនិយាយប្រាប់ម្តងមួយជុំៗ។ នៅក្នុងកុំព្យូទ័រ បើយើងចង់ផ្ញើសារទៅសិស្ស ១,០០០ នាក់ យើងប្រើ Loop តែ ២ បន្ទាត់ប៉ុណ្ណោះ!',
+                pythonCode: `# បញ្ជាឱ្យកុំព្យូទ័ររាប់ជំហានពី 1 ដល់ 4 ដោយស្វ័យប្រវត្តិ
+for step in range(1, 5):
+    print(f"ជំហានទី {step}: កំពុងហាត់សរសេរកូដ 💻")
+
+print("🎉 អបអរសាទរ! បានបញ្ចប់គ្រប់ជំហានហើយ!")`,
+                jsCode: `// បញ្ជាឱ្យកុំព្យូទ័ររាប់ជំហានពី 1 ដល់ 4 ដោយស្វ័យប្រវត្តិ
+for (let step = 1; step <= 4; step++) {
+    console.log("ជំហានទី " + step + ": កំពុងហាត់សរសេរកូដ 💻");
+}
+
+console.log("🎉 អបអរសាទរ! បានបញ្ចប់គ្រប់ជំហានហើយ!");`,
+                output: `ជំហានទី 1: កំពុងហាត់សរសេរកូដ 💻\nជំហានទី 2: កំពុងហាត់សរសេរកូដ 💻\nជំហានទី 3: កំពុងហាត់សរសេរកូដ 💻\nជំហានទី 4: កំពុងហាត់សរសេរកូដ 💻\n🎉 អបអរសាទរ! បានបញ្ចប់គ្រប់ជំហានហើយ!`
+            },
+            {
+                id: 'functions',
+                number: 'មូលដ្ឋានគ្រឹះទី ៤',
+                title: 'Functions (អនុគមន៍ / កញ្ចប់ការងារ)',
+                shortTitle: '៤. Functions (អនុគមន៍)',
+                subtitle: 'បង្កើតកញ្ចប់កូដម្តង យកទៅប្រើប្រាស់ឡើងវិញបានគ្រប់ទីកន្លែង',
+                icon: 'ph-cube-transparent',
+                color: 'emerald',
+                desc: 'Function គឺជាបណ្តុំនៃកូដដែលយើងវេចខ្ចប់ទុកក្រោមឈ្មោះមួយ ដើម្បីធ្វើការងារជាក់លាក់ណាមួយ។ ពេលណាយើងត្រូវការប្រើ យើងគ្រាន់តែហៅឈ្មោះ Function នោះ ដោយមិនបាច់សរសេរកូដឡើងវិញទេ។',
+                analogy: 'ប្រៀបដូចជា «ម៉ាស៊ីនក្រឡុកផ្លែឈើ»។ អ្នកគ្រាន់តែដាក់ផ្លែឈើចូល (Input) -> ម៉ាស៊ីនកិនក្រឡុក (Function Process) -> ទទួលបានទឹកផ្លែឈើ (Output)។ អ្នកអាចប្រើម៉ាស៊ីនដដែលនេះសម្រាប់ក្រឡុកស្វាយ ចេក ឬស្រ្តបឺរីបានគ្រប់ពេល!',
+                pythonCode: `# បង្កើត Function សម្រាប់គណនាក្រឡាផ្ទៃចតុកោណកែង
+def calculate_area(width, height):
+    area = width * height
+    return area
+
+# ហៅ Function មកប្រើប្រាស់បានច្រើនដង
+room_1 = calculate_area(4, 5)
+room_2 = calculate_area(6, 10)
+
+print("ក្រឡាផ្ទៃបន្ទប់ទី ១ គឺ៖", room_1, "ម៉ែត្រការ៉េ")
+print("ក្រឡាផ្ទៃបន្ទប់ទី ២ គឺ៖", room_2, "ម៉ែត្រការ៉េ")`,
+                jsCode: `// បង្កើត Function សម្រាប់គណនាក្រឡាផ្ទៃចតុកោណកែង
+function calculateArea(width, height) {
+    let area = width * height;
+    return area;
+}
+
+// ហៅ Function មកប្រើប្រាស់បានច្រើនដង
+let room1 = calculateArea(4, 5);
+let room2 = calculateArea(6, 10);
+
+console.log("ក្រឡាផ្ទៃបន្ទប់ទី ១ គឺ៖ " + room1 + " ម៉ែត្រការ៉េ");
+console.log("ក្រឡាផ្ទៃបន្ទប់ទី ២ គឺ៖ " + room2 + " ម៉ែត្រការ៉េ");`,
+                output: `ក្រឡាផ្ទៃបន្ទប់ទី ១ គឺ៖ 20 ម៉ែត្រការ៉េ\nក្រឡាផ្ទៃបន្ទប់ទី ២ គឺ៖ 60 ម៉ែត្រការ៉េ`
+            },
+            {
+                id: 'algorithms',
+                number: 'មូលដ្ឋានគ្រឹះទី ៥',
+                title: 'Algorithms & Logic (អាល់ហ្គោរីត និងលំដាប់នៃការគិត)',
+                shortTitle: '៥. Algorithms & Logic',
+                subtitle: 'ផែនទីបង្ហាញផ្លូវជាជំហានៗដើម្បីដោះស្រាយបញ្ហា',
+                icon: 'ph-flow-arrow',
+                color: 'amber',
+                desc: 'Algorithm (អាល់ហ្គោរីត) គឺជាលំដាប់នៃជំហានច្បាស់លាស់ពីដើមដល់ចប់ ដើម្បីដោះស្រាយបញ្ហាណាមួយ។ មុននឹងសរសេរកូដ អ្នកសរសេរកម្មវិធីតែងតែគិតរៀបចំ Algorithm ជាមុនសិន។',
+                analogy: 'ប្រៀបដូចជា «រូបមន្តធ្វើម្ហូប (Recipe)»៖ ជំហានទី១ ដាំទឹកឱ្យពុះ -> ជំហានទី២ ដាក់បន្លែនិងសាច់ -> ជំហានទី៣ បង់គ្រឿងទេស -> ជំហានទី៤ ភ្លក្សរសជាតិ។ បើយើងធ្វើខុសលំដាប់ ម្ហូបនឹងមិនឆ្ងាញ់ឡើយ!',
+                pythonCode: `# Algorithm ស្វែងរកពិន្ទុខ្ពស់បំផុតក្នុងថ្នាក់រៀន
+scores = [72, 95, 88, 64, 99, 81]
+
+# ជំហានទី ១៖ សន្មតថាលេខដំបូងគេគឺធំជាងគេបណ្តោះអាសន្ន
+highest = scores[0]
+
+# ជំហានទី ២៖ ពិនិត្យពិន្ទុនីមួយៗតាមលំដាប់
+for s in scores:
+    if s > highest:
+        highest = s  # ប្តូរយកពិន្ទុដែលធំជាង
+
+print("🏆 ពិន្ទុខ្ពស់បំផុតក្នុងថ្នាក់គឺ៖", highest)`,
+                jsCode: `// Algorithm ស្វែងរកពិន្ទុខ្ពស់បំផុតក្នុងថ្នាក់រៀន
+const scores = [72, 95, 88, 64, 99, 81];
+
+// ជំហានទី ១៖ សន្មតថាលេខដំបូងគេគឺធំជាងគេបណ្តោះអាសន្ន
+let highest = scores[0];
+
+// ជំហានទី ២៖ ពិនិត្យពិន្ទុនីមួយៗតាមលំដាប់
+for (let s of scores) {
+    if (s > highest) {
+        highest = s; // ប្តូរយកពិន្ទុដែលធំជាង
+    }
+}
+
+console.log("🏆 ពិន្ទុខ្ពស់បំផុតក្នុងថ្នាក់គឺ៖ " + highest);`,
+                output: `🏆 ពិន្ទុខ្ពស់បំផុតក្នុងថ្នាក់គឺ៖ 99\n[អាល់ហ្គោរីតបានប្រៀបធៀបលេខទាំង ៦ តាមលំដាប់ រហូតរកឃើញ 99]`
+            }
+        ];
+
+        let activeConceptIndex = 0;
+        let activeConceptLang = 'python';
+
+        function renderConceptTabs() {
+            const container = document.getElementById('concept-tabs');
+            container.innerHTML = coreConcepts.map((c, idx) => {
+                const isActive = idx === activeConceptIndex;
+                return `
+                    <button onclick="selectConcept(${idx})" class="w-full text-left p-4 rounded-2xl border transition-all duration-200 flex items-center justify-between gap-4 ${
+                        isActive 
+                        ? 'bg-indigo-600 text-white border-indigo-500 shadow-lg shadow-indigo-500/25 scale-[1.01]' 
+                        : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-indigo-400'
+                    }">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-2xl shrink-0 ${
+                                isActive ? 'bg-white/20 text-white' : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
+                            }">
+                                <i class="ph-duotone ${c.icon}"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm sm:text-base">${c.shortTitle}</div>
+                                <div class="text-xs ${isActive ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'}">${c.subtitle}</div>
+                            </div>
+                        </div>
+                        <i class="ph-bold ph-caret-right text-lg ${isActive ? 'text-white' : 'text-slate-400'}"></i>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectConcept(index) {
+            activeConceptIndex = index;
+            renderConceptTabs();
+            updateConceptDetail();
+        }
+
+        function setConceptLang(lang) {
+            activeConceptLang = lang;
+            const pyBtn = document.getElementById('lang-btn-python');
+            const jsBtn = document.getElementById('lang-btn-js');
+
+            if (lang === 'python') {
+                pyBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-semibold bg-indigo-600 text-white transition-all';
+                jsBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-400 hover:text-white transition-all';
+            } else {
+                jsBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-semibold bg-indigo-600 text-white transition-all';
+                pyBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-400 hover:text-white transition-all';
+            }
+            updateConceptDetail();
+        }
+
+        function updateConceptDetail() {
+            const c = coreConcepts[activeConceptIndex];
+            document.getElementById('concept-badge').textContent = c.number;
+            document.getElementById('concept-title').textContent = c.title;
+            document.getElementById('concept-desc').textContent = c.desc;
+            document.getElementById('concept-analogy').textContent = c.analogy;
+            document.getElementById('concept-icon-box').innerHTML = `<i class="ph-duotone ${c.icon}"></i>`;
+            document.getElementById('concept-code').textContent = activeConceptLang === 'python' ? c.pythonCode : c.jsCode;
+            document.getElementById('concept-output').textContent = c.output;
+            document.getElementById('concept-run-status').textContent = 'បង្ហាញលទ្ធផលរួចរាល់ ✓';
+        }
+
+        function runConceptDemo() {
+            const outEl = document.getElementById('concept-output');
+            const statusEl = document.getElementById('concept-run-status');
+            const c = coreConcepts[activeConceptIndex];
+
+            statusEl.textContent = 'កំពុងដំណើរការកូដ... ⏳';
+            outEl.classList.add('opacity-40');
+
+            setTimeout(() => {
+                outEl.classList.remove('opacity-40');
+                outEl.textContent = c.output;
+                statusEl.innerHTML = '<span class="text-emerald-400 font-semibold">ដំណើរការជោគជ័យ (Executed in 0.02s) ⚡</span>';
+            }, 250);
+        }
+
+        // ------------------------------------------
+        // 4. WHAT CAN YOU BUILD/DO? (5 CAREER PATHS)
+        // ------------------------------------------
+        const careerPaths = [
+            {
+                id: 'web',
+                name: 'Web Development',
+                khmerName: 'បង្កើតគេហទំព័រ និងប្រព័ន្ធអនឡាញ',
+                icon: 'ph-globe-hemisphere-west',
+                badgeColor: 'from-blue-500 to-indigo-600',
+                summary: 'បង្កើតវេបសាយព័ត៌មាន ប្រព័ន្ធទិញទំនិញអនឡាញ (E-Commerce), ប្រព័ន្ធគ្រប់គ្រងសាលារៀន ឬមន្ទីរពេទ្យ ដែលដំណើរការលើ Browser។',
+                examples: ['គេហទំព័រព័ត៌មាន និងស្ថាប័ន', 'ប្រព័ន្ធលក់ទំនិញអនឡាញ (E-Commerce)', 'កម្មវិធីដូចជា YouTube, Facebook Web, Canva'],
+                languages: [
+                    { name: 'HTML / CSS', role: 'រចនាទម្រង់ និងពណ៌សម្រស់គេហទំព័រ' },
+                    { name: 'JavaScript / TypeScript', role: 'ធ្វើឱ្យគេហទំព័រមានចលនា និងឆ្លើយតបអ្នកប្រើ' },
+                    { name: 'Python / PHP / Node.js', role: 'គ្រប់គ្រងទិន្នន័យខាងក្រោយ (Backend & Database)' }
+                ],
+                whyGreat: 'ងាយស្រួលចាប់ផ្តើមបំផុតសម្រាប់សិស្សថ្មី ព្រោះអាចមើលឃើញលទ្ធផលភ្លាមៗនៅលើ Web Browser!'
+            },
+            {
+                id: 'mobile',
+                name: 'Mobile Apps',
+                khmerName: 'បង្កើតកម្មវិធីទូរស័ព្ទ (iOS & Android)',
+                icon: 'ph-device-mobile-camera',
+                badgeColor: 'from-emerald-500 to-teal-600',
+                summary: 'បង្កើតកម្មវិធីដែលដំណើរការនៅលើទូរស័ព្ទដៃ Smart Phone ទាំងប្រព័ន្ធ Android និង iPhone (iOS)។',
+                examples: ['កម្មវិធីធនាគារ (ដូចជា ABA Mobile, Wing)', 'កម្មវិធីកុម្ម៉ង់អាហារ និងហៅឡាន (Grab, Nham24)', 'កម្មវិធីសិក្សា និងវចនានុក្រមលើទូរស័ព្ទ'],
+                languages: [
+                    { name: 'Dart (Flutter)', role: 'សរសេរកូដតែម្តង ប្រើបានទាំង iOS និង Android (ពេញនិយមខ្លាំង)' },
+                    { name: 'Swift', role: 'សម្រាប់បង្កើតកម្មវិធី iPhone / iPad ផ្ទាល់' },
+                    { name: 'Kotlin / React Native', role: 'សម្រាប់បង្កើតកម្មវិធី Android និង Cross-platform' }
+                ],
+                whyGreat: 'មនុស្សគ្រប់គ្នាមានទូរស័ព្ទដៃជាប់ខ្លួន ដូច្នេះតម្រូវការអ្នកបង្កើត Mobile App នៅកម្ពុជាគឺខ្ពស់ខ្លាំងណាស់!'
+            },
+            {
+                id: 'game',
+                name: 'Game Development',
+                khmerName: 'បង្កើតហ្គេម 2D, 3D និងពិភពនិម្មិត',
+                icon: 'ph-game-controller',
+                badgeColor: 'from-purple-500 to-pink-600',
+                summary: 'រួមបញ្ចូលគ្នារវាងសិល្បៈ សំឡេង រូបវិទ្យា និងកូដ ដើម្បីបង្កើតហ្គេមកម្សាន្ត ឬហ្គេមអប់រំនៅលើទូរស័ព្ទ កុំព្យូទ័រ និង Console។',
+                examples: ['ហ្គេមទូរស័ព្ទ (ដូចជា Mobile Legends, Clash of Clans)', 'ហ្គេមកុំព្យូទ័រ 2D/3D (Minecraft, Roblox)', 'ហ្គេមអប់រំសម្រាប់កុមារ និងការធ្វើ Simulation'],
+                languages: [
+                    { name: 'C# (Unity Engine)', role: 'ពេញនិយមបំផុតសម្រាប់បង្កើតហ្គេមទូរស័ព្ទ និង 2D/3D' },
+                    { name: 'C++ (Unreal Engine)', role: 'សម្រាប់បង្កើតហ្គេមក្រាហ្វិកធំៗកម្រិតខ្ពស់ (AAA Games)' },
+                    { name: 'GDScript (Godot) / Lua', role: 'ស្រាល និងងាយស្រួលសម្រាប់អ្នកចាប់ផ្តើមបង្កើតហ្គេមដំបូង' }
+                ],
+                whyGreat: 'ជួយឱ្យអ្នកយល់ច្បាស់ពីគណិតវិទ្យា ចលនារូបវិទ្យា និងការគិតបែបច្នៃប្រឌិតខ្ពស់!'
+            },
+            {
+                id: 'ai',
+                name: 'AI & Data Science',
+                khmerName: 'បញ្ញាសិប្បនិម្មិត និងវិទ្យាសាស្ត្រទិន្នន័យ',
+                icon: 'ph-robot',
+                badgeColor: 'from-amber-500 to-orange-600',
+                summary: 'បង្រៀនកុំព្យូទ័រឱ្យចេះរៀនសូត្រពីទិន្នន័យ (Machine Learning), ចេះសន្ទនា, ចេះមើលរូបភាព និងវិភាគទិន្នន័យធំៗ។',
+                examples: ['ប្រព័ន្ធឆ្លើយតបឆ្លាតវៃ (ដូចជា ChatGPT, Gemini)', 'ប្រព័ន្ធស្គាល់មុខមនុស្ស និងសំឡេងភាសាខ្មែរ (OCR / Speech)', 'ការវិភាគទិន្នន័យអាជីវកម្ម និងការព្យាករណ៍'],
+                languages: [
+                    { name: 'Python', role: 'ជាភាសាទី ១ ក្នុងពិភពលោកសម្រាប់ AI និង Data Science' },
+                    { name: 'SQL', role: 'សម្រាប់ទាញយក និងគ្រប់គ្រងទិន្នន័យពី Database' },
+                    { name: 'R / PyTorch / TensorFlow', role: 'ឧបករណ៍សម្រាប់បង្វឹកម៉ូដែល AI ឱ្យឆ្លាតវៃ' }
+                ],
+                whyGreat: 'ជាវិស័យអនាគតដែលកំពុងផ្លាស់ប្តូរពិភពលោក និងមានប្រាក់ចំណូលខ្ពស់បំផុតមួយ!'
+            },
+            {
+                id: 'iot',
+                name: 'IoT & Robotics',
+                khmerName: 'ប្រព័ន្ធស្វ័យប្រវត្តិកម្ម និងរ៉ូបូត',
+                icon: 'ph-cpu',
+                badgeColor: 'from-cyan-500 to-blue-600',
+                summary: 'សរសេរកូដបញ្ជាទៅលើឧបករណ៍អេឡិចត្រូនិក សេនស័រ (Sensors) និងមនុស្សយន្ត ដើម្បីជួយការងារមនុស្សដោយស្វ័យប្រវត្តិ។',
+                examples: ['ប្រព័ន្ធផ្ទះឆ្លាតវៃ (Smart Home បិទបើកភ្លើងតាមទូរស័ព្ទ)', 'ប្រព័ន្ធស្រោចស្រពដំណាំកសិកម្មស្វ័យប្រវត្តិតាមសំណើមដី', 'រ៉ូបូត ដ្រូន (Drones) និងឧបករណ៍វេជ្ជសាស្ត្រ'],
+                languages: [
+                    { name: 'C / C++ (Arduino)', role: 'បញ្ជាផ្ទាល់ទៅលើបន្ទះ Microcontrollers និង Sensors' },
+                    { name: 'Python (Raspberry Pi)', role: 'គ្រប់គ្រងប្រព័ន្ធរ៉ូបូត និងកាមេរ៉ាឆ្លាតវៃ' },
+                    { name: 'Rust', role: 'ភាសាទំនើបមានសុវត្ថិភាពខ្ពស់សម្រាប់ប្រព័ន្ធ Embedded' }
+                ],
+                whyGreat: 'សិស្សានុសិស្សអាចតភ្ជាប់កូដជាមួយឧបករណ៍ពិតៗ ដែលមើលឃើញ និងប៉ះពាល់បានផ្ទាល់ដៃ!'
+            }
+        ];
+
+        let activeCareerIndex = 0;
+
+        function renderCareerSection() {
+            // Render Top Filter Tabs
+            const tabsEl = document.getElementById('career-filter-tabs');
+            tabsEl.innerHTML = careerPaths.map((p, idx) => {
+                const isActive = idx === activeCareerIndex;
+                return `
+                    <button onclick="selectCareerPath(${idx})" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all ${
+                        isActive
+                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 scale-105'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    }">
+                        <i class="ph-duotone ${p.icon} text-lg"></i>
+                        <span>${p.name}</span>
+                    </button>
+                `;
+            }).join('');
+
+            // Render Spotlight Detail
+            const active = careerPaths[activeCareerIndex];
+            const spotlightEl = document.getElementById('career-spotlight');
+            spotlightEl.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-5">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r ${active.badgeColor} text-white text-xs font-bold">
+                            <i class="ph-bold ${active.icon}"></i>
+                            <span>${active.name}</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold khmer-title">${active.khmerName}</h3>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">${active.summary}</p>
+                        
+                        <div class="space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-indigo-400">ឧទាហរណ៍សមិទ្ធផលជាក់ស្តែង៖</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                ${active.examples.map(ex => `
+                                    <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 text-xs sm:text-sm flex items-start gap-2">
+                                        <i class="ph-fill ph-check-circle text-emerald-400 text-base shrink-0 mt-0.5"></i>
+                                        <span>${ex}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 text-xs sm:text-sm text-indigo-200 flex items-center gap-3">
+                            <i class="ph-fill ph-star text-amber-400 text-xl shrink-0"></i>
+                            <span><strong>ចំណុចពិសេស៖</strong> ${active.whyGreat}</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-slate-950/90 border border-slate-800 rounded-2xl p-6 space-y-4">
+                        <div class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="ph-duotone ph-code-block text-indigo-400 text-xl"></i>
+                            <span>ភាសាកូដ និងឧបករណ៍ពេញនិយមសម្រាប់ជំនាញនេះ៖</span>
+                        </div>
+                        <div class="space-y-3">
+                            ${active.languages.map(lang => `
+                                <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500/50 transition-colors">
+                                    <div class="font-mono font-bold text-sm text-indigo-400">${lang.name}</div>
+                                    <div class="text-xs text-slate-400 mt-1">${lang.role}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Render Bottom Quick Cards Grid
+            const gridEl = document.getElementById('career-cards-grid');
+            gridEl.innerHTML = careerPaths.map((p, idx) => {
+                const isActive = idx === activeCareerIndex;
+                return `
+                    <div onclick="selectCareerPath(${idx})" class="cursor-pointer p-5 rounded-2xl border transition-all duration-200 ${
+                        isActive
+                        ? 'bg-indigo-50/80 dark:bg-indigo-950/40 border-indigo-500 shadow-md'
+                        : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-indigo-400'
+                    }">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${p.badgeColor} text-white flex items-center justify-center text-xl mb-3 shadow-sm">
+                            <i class="ph-duotone ${p.icon}"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-900 dark:text-white">${p.name}</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${p.khmerName}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectCareerPath(index) {
+            activeCareerIndex = index;
+            renderCareerSection();
+        }
+
+        // ------------------------------------------
+        // 5A. INTERACTIVE PLAYGROUND SIMULATOR
+        // ------------------------------------------
+        function updatePlaygroundCodePreview() {
+            const name = document.getElementById('pg-name').value.trim() || 'សិស្សឆ្នើម';
+            const score = parseInt(document.getElementById('pg-score').value, 10);
+            const loopCount = parseInt(document.getElementById('pg-loop').value, 10);
+
+            document.getElementById('pg-score-label').textContent = score;
+            document.getElementById('pg-loop-label').textContent = loopCount + ' ដង';
+
+            const codeSnippet = `# ១. អថេរ (Variables)
+student_name = "${name}"
+score = ${score}
+
+# ២. លក្ខខណ្ឌសម្រេចចិត្ត (If / Else)
+if score >= 80:
+    result = "ល្អប្រសើរណាស់ (និទ្ទេស A) 🏆"
+elif score >= 50:
+    result = "ប្រឡងជាប់ (និទ្ទេស B/C) ✅"
+else:
+    result = "ត្រូវប្រឹងប្រែងបន្ថែមទៀត 💪"
+
+# ៣. រង្វិលជុំផ្តល់រង្វាន់ផ្កាយ (For Loop)
+for i in range(${loopCount}):
+    give_star("⭐")`;
+
+            document.getElementById('pg-code-display').textContent = codeSnippet;
+            runPlaygroundSimulation();
+        }
+
+        function runPlaygroundSimulation() {
+            const name = document.getElementById('pg-name').value.trim() || 'សិស្សឆ្នើម';
+            const score = parseInt(document.getElementById('pg-score').value, 10);
+            const loopCount = parseInt(document.getElementById('pg-loop').value, 10);
+
+            let statusText = '';
+            let badgeClass = '';
+            let message = '';
+
+            if (score >= 80) {
+                statusText = 'និទ្ទេស A • ល្អប្រសើរណាស់';
+                badgeClass = 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-300';
+                message = `អបអរសាទរ <strong>${name}</strong>! អ្នកទទួលបានពិន្ទុ <strong>${score}</strong> គឺខ្ពស់ខ្លាំងណាស់! 🏆`;
+            } else if (score >= 50) {
+                statusText = 'ប្រឡងជាប់ជាស្ថាពរ';
+                badgeClass = 'bg-indigo-500/20 text-indigo-600 dark:text-indigo-300';
+                message = `ធ្វើបានល្អណាស់ <strong>${name}</strong>! ពិន្ទុ <strong>${score}</strong> គឺប្រឡងជាប់ហើយ! ✅`;
+            } else {
+                statusText = 'ត្រូវប្រឹងប្រែងបន្ថែម';
+                badgeClass = 'bg-rose-500/20 text-rose-600 dark:text-rose-300';
+                message = `សួស្តី <strong>${name}</strong>! ពិន្ទុ <strong>${score}</strong> មិនទាន់គ្រប់ ៥០ ទេ កុំអស់សង្ឃឹម តោះសាកល្បងអូសពិន្ទុឡើងលើ! 💪`;
+            }
+
+            const badgeEl = document.getElementById('pg-badge-status');
+            badgeEl.className = `px-2.5 py-0.5 rounded-full text-xs font-bold ${badgeClass}`;
+            badgeEl.textContent = statusText;
+
+            let starsHtml = '';
+            for (let i = 1; i <= loopCount; i++) {
+                starsHtml += `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-500 text-xs font-bold animate-bounce" style="animation-delay: ${i * 70}ms">⭐ ផ្កាយទី ${i}</span>`;
+            }
+
+            document.getElementById('pg-visual-output').innerHTML = `
+                <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-slate-700 dark:text-slate-200">
+                    ${message}
+                </div>
+                <div class="space-y-1.5">
+                    <div class="text-xs text-slate-500 dark:text-slate-400">លទ្ធផលពីរង្វិលជុំ <code>for i in range(${loopCount})</code>៖</div>
+                    <div class="flex flex-wrap gap-2 pt-1">${starsHtml}</div>
+                </div>
+            `;
+        }
+
+        // ------------------------------------------
+        // 5B. INTERACTIVE 3-QUESTION QUIZ IN KHMER
+        // ------------------------------------------
+        const quizQuestions = [
+            {
+                q: 'សំណួរទី ១៖ ប្រសិនបើយើងចង់រក្សាទុកឈ្មោះសិស្ស ឬពិន្ទុនៅក្នុងកុំព្យូទ័រ តើយើងត្រូវប្រើមូលដ្ឋានគ្រឹះមួយណា?',
+                options: [
+                    'ក. Variable (អថេរ)',
+                    'ខ. Loop (រង្វិលជុំ)',
+                    'គ. Monitor (អេក្រង់កុំព្យូទ័រ)'
+                ],
+                correct: 0,
+                explanation: 'ត្រឹមត្រូវ! Variable (អថេរ) ប្រៀបដូចជាប្រអប់សម្រាប់ផ្ទុកទិន្នន័យ (ដូចជាឈ្មោះ ឬពិន្ទុ) នៅក្នុងអង្គចងចាំកុំព្យូទ័រ។'
+            },
+            {
+                q: 'សំណួរទី ២៖ តើបញ្ជាមួយណាដែលជួយឱ្យកុំព្យូទ័រធ្វើការងារដដែលៗចំនួន ១០០ ដង ដោយមិនបាច់សរសេរកូដ ១០០ បន្ទាត់?',
+                options: [
+                    'ក. Data Type (ប្រភេទទិន្នន័យ)',
+                    'ខ. Loop (រង្វិលជុំ For / While)',
+                    'គ. Keyboard (ក្តារចុច)'
+                ],
+                correct: 1,
+                explanation: 'ត្រឹមត្រូវណាស់! Loop (រង្វិលជុំ) អនុញ្ញាតឱ្យកុំព្យូទ័រធ្វើការងារដដែលៗដោយស្វ័យប្រវត្តិយ៉ាងរហ័ស។'
+            },
+            {
+                q: 'សំណួរទី ៣៖ ប្រសិនបើអ្នកចង់បង្កើតកម្មវិធីទូរស័ព្ទ (Mobile App) ទាំងលើ iPhone និង Android តើបច្ចេកវិទ្យាមួយណាពេញនិយមបំផុត?',
+                options: [
+                    'ក. Microsoft Word',
+                    'ខ. Dart / Flutter ឬ React Native',
+                    'គ. Adobe Photoshop'
+                ],
+                correct: 1,
+                explanation: 'អស្ចារ្យណាស់! Dart (Flutter) និង React Native គឺជាបច្ចេកវិទ្យាដ៏ពេញនិយមសម្រាប់បង្កើតកម្មវិធីទូរស័ព្ទទាំង Android និង iOS។'
+            }
+        ];
+
+        let userAnswers = [null, null, null];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizQuestions.map((item, qIdx) => {
+                const selected = userAnswers[qIdx];
+                const isAnswered = selected !== null;
+
+                return `
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-3">
+                        <div class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white leading-relaxed">
+                            ${item.q}
+                        </div>
+                        <div class="space-y-2">
+                            ${item.options.map((opt, oIdx) => {
+                                let btnStyle = 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-indigo-400 text-slate-700 dark:text-slate-300';
+                                let iconHtml = '<i class="ph-bold ph-circle text-slate-400"></i>';
+
+                                if (isAnswered) {
+                                    if (oIdx === item.correct) {
+                                        btnStyle = 'bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-semibold';
+                                        iconHtml = '<i class="ph-fill ph-check-circle text-emerald-500 text-lg"></i>';
+                                    } else if (oIdx === selected && selected !== item.correct) {
+                                        btnStyle = 'bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300';
+                                        iconHtml = '<i class="ph-fill ph-x-circle text-rose-500 text-lg"></i>';
+                                    }
+                                }
+
+                                return `
+                                    <button onclick="answerQuiz(${qIdx}, ${oIdx})" ${isAnswered ? 'disabled' : ''} class="w-full text-left px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm flex items-center justify-between gap-2 transition-all ${btnStyle}">
+                                        <span>${opt}</span>
+                                        ${iconHtml}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                        ${isAnswered ? `
+                            <div class="p-3 rounded-xl text-xs ${selected === item.correct ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-amber-500/10 text-amber-700 dark:text-amber-300'}">
+                                💡 ${item.explanation}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            updateQuizScore();
+        }
+
+        function answerQuiz(qIdx, oIdx) {
+            if (userAnswers[qIdx] !== null) return;
+            userAnswers[qIdx] = oIdx;
+            renderQuiz();
+        }
+
+        function updateQuizScore() {
+            let correctCount = 0;
+            let answeredCount = 0;
+
+            userAnswers.forEach((ans, idx) => {
+                if (ans !== null) {
+                    answeredCount++;
+                    if (ans === quizQuestions[idx].correct) {
+                        correctCount++;
+                    }
+                }
+            });
+
+            document.getElementById('quiz-score-badge').textContent = `ពិន្ទុ៖ ${correctCount} / ${quizQuestions.length}`;
+            const summaryEl = document.getElementById('quiz-summary-text');
+
+            if (answeredCount === quizQuestions.length) {
+                if (correctCount === 3) {
+                    summaryEl.innerHTML = '<span class="text-emerald-600 dark:text-emerald-400 font-bold">🎉 អស្ចារ្យណាស់! អ្នកឆ្លើយត្រូវទាំង ៣ សំណួរ!</span>';
+                } else {
+                    summaryEl.innerHTML = `<span class="text-indigo-600 dark:text-indigo-400 font-bold">ធ្វើបានល្អ! អ្នកទទួលបាន ${correctCount}/3 ពិន្ទុ។</span>`;
+                }
+            } else {
+                summaryEl.textContent = `បានឆ្លើយ ${answeredCount}/${quizQuestions.length} សំណួរ`;
+            }
+        }
+
+        function resetQuiz() {
+            userAnswers = [null, null, null];
+            renderQuiz();
+        }
+
+        // ------------------------------------------
+        // INITIALIZE ON WINDOW LOAD
+        // ------------------------------------------
+        window.onload = function () {
+            setHeroDemo(0);
+            renderConceptTabs();
+            updateConceptDetail();
+            renderCareerSection();
+            updatePlaygroundCodePreview();
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
